@@ -72,7 +72,7 @@ moon run ./src --target native -- --help
 
 ## API
 
-`bw` is an executable, so its public API is the command and option surface below. Admiral also provides `--help` and `--version` on the root command and every command path.
+`bw` is an executable, so its public API is the command and option surface below. The root command supports `--help` and `--version` for CLI discovery and version information.
 
 ### Global options
 
@@ -81,8 +81,8 @@ moon run ./src --target native -- --help
 | `--account-id <id>` | `CLOUDFLARE_ACCOUNT_ID` | `account_id` | Cloudflare account ID; required for every API command. |
 | `--api-token <token>` | `CLOUDFLARE_API_TOKEN` | `api_token` | Cloudflare API token; required for every API command. |
 | `--config <path>` | — | — | JSON config path; defaults to `bw-config.json`. |
-| `--help` | — | — | Show help for the current command path. |
-| `--version` | — | — | Show the CLI version. |
+| `--help` | — | — | Show help for the root command. |
+| `--version` | — | — | Show the CLI version from the root command. |
 
 ### Shared page-source options
 
