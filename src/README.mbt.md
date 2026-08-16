@@ -72,7 +72,7 @@ moon run ./src --target native -- --help
 
 ## API
 
-`bw` is an executable, so its public API is the command and option surface below. `--help` is accepted at the root and nested command paths but currently prints application-level help; `--version` is accepted only by the root command.
+`bw` is an executable, so its public API is the command and option surface below. `--help` is accepted at the root and nested command paths and prints help for the invoked command path; `--version` is accepted only by the root command.
 
 ### Global options
 
@@ -81,7 +81,7 @@ moon run ./src --target native -- --help
 | `--account-id <id>` | `CLOUDFLARE_ACCOUNT_ID` | `account_id` | Cloudflare account ID; required for every API command. |
 | `--api-token <token>` | `CLOUDFLARE_API_TOKEN` | `api_token` | Cloudflare API token; required for every API command. |
 | `--config <path>` | — | — | JSON config path; defaults to `bw-config.json`. |
-| `--help` | — | — | Show application-level help from the root or a nested command path. |
+| `--help` | — | — | Show help for the invoked root or nested command path. |
 | `--version` | — | — | Show the CLI version from the root command; nested paths reject this option. |
 
 ### Shared page-source options
