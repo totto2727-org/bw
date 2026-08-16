@@ -12,7 +12,8 @@ moon.mod                        Module metadata and registry dependencies
 flake.nix                       Nix development shell, package, and overlay
 package.nix                     Nix package builder
 .github/workflows/              MoonBit checks and package publication workflows
-README.mbt.md                   Canonical end-user documentation
+src/README.mbt.md               Canonical package-local end-user documentation
+README.mbt.md                   Relative symlink to src/README.mbt.md
 README.md                       Relative symlink to README.mbt.md
 ```
 
@@ -23,7 +24,7 @@ README.md                       Relative symlink to README.mbt.md
 - Run commands from the repository root.
 - Enter `nix develop` before running MoonBit or Nix package tasks when the pinned toolchain is required.
 - Keep Cloudflare credentials in environment variables or local config files; never commit secrets.
-- Keep `README.mbt.md` canonical and preserve the relative `README.md -> README.mbt.md` symlink.
+- Keep `src/README.mbt.md` canonical and preserve the relative `README.mbt.md -> src/README.mbt.md` and `README.md -> README.mbt.md` symlinks.
 - Do not create a separate `CLAUDE.md` file or alias for this repository.
 
 ### Standard tasks
