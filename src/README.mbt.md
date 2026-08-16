@@ -27,14 +27,11 @@ moon run ./src --target native -- crawl start --url https://example.com --format
 
 Values are resolved in this order: command-line option, environment variable, config-file key, and option default. Config keys use the independent snake_case names documented in the API section. For multiple crawl formats, use a JSON string array such as `"formats": ["html", "markdown"]` or repeat `--format`; `BW_CRAWL_FORMATS` is a scalar environment value and accepts comma-separated formats.
 
-```mbt check
-///|
-test "comma-separated crawl formats" {
-  let formats = "html,markdown"
-    .split(",")
-    .map(fn(item) { item.to_owned() })
-    .collect()
-  debug_inspect(formats, content="[\"html\", \"markdown\"]")
+For a JSON configuration file, provide crawl formats as an array:
+
+```json
+{
+  "formats": ["html", "markdown"]
 }
 ```
 
