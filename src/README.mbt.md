@@ -2,7 +2,7 @@
 
 `bw` is a native MoonBit CLI for Cloudflare Browser Rendering, with commands for rendered content, Markdown, screenshots, PDFs, structured extraction, links, and asynchronous crawls.
 
-This package-local document is canonical `README.mbt.md`; the repository-root `README.mbt.md` and `README.md` are relative symlinks to this file.
+This package-local document is canonical `src/README.mbt.md`. The repository-root module overview is in [../README.mbt.md](../README.mbt.md).
 
 ## Usage
 
