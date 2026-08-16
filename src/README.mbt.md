@@ -28,8 +28,12 @@ moon run ./src --target native -- crawl start --url https://example.com --format
 Values are resolved in this order: command-line option, environment variable, config-file key, and option default. Config keys use the independent snake_case names documented in the API section. For multiple crawl formats, use a JSON string array such as `"formats": ["html", "markdown"]` or repeat `--format`; `BW_CRAWL_FORMATS` is a scalar environment value and accepts comma-separated formats.
 
 ```mbt check
+///|
 test "comma-separated crawl formats" {
-  let formats = "html,markdown".split(",").map(fn(item) { item.to_owned() }).collect()
+  let formats = "html,markdown"
+    .split(",")
+    .map(fn(item) { item.to_owned() })
+    .collect()
   debug_inspect(formats, content="[\"html\", \"markdown\"]")
 }
 ```
@@ -95,7 +99,7 @@ The `content`, `markdown`, `scrape`, `links`, `pdf`, `screenshot`, `snapshot`, `
 
 ### `content`
 
-Fetches rendered HTML. The output is printed to stdout unless `--output` is set.
+Fetches rendered HTML. The JSON response envelope is printed to stdout unless `--output` is set.
 
 ```bash
 moon run ./src --target native -- content --url https://example.com --output page.html
@@ -103,11 +107,11 @@ moon run ./src --target native -- content --url https://example.com --output pag
 
 | Option | Environment variable | Config key | Description |
 | --- | --- | --- | --- |
-| `--output`, `-o <path>` | `BW_OUTPUT` | `output` | Write HTML to this file instead of stdout. |
+| `--output`, `-o <path>` | `BW_OUTPUT` | `output` | Write the JSON response envelope to this file instead of stdout. |
 
 ### `markdown`
 
-Extracts Markdown from a rendered page. The output is printed to stdout unless `--output` is set.
+Extracts Markdown from a rendered page. The JSON response envelope is printed to stdout unless `--output` is set.
 
 ```bash
 moon run ./src --target native -- markdown --url https://example.com --output page.md
@@ -115,7 +119,7 @@ moon run ./src --target native -- markdown --url https://example.com --output pa
 
 | Option | Environment variable | Config key | Description |
 | --- | --- | --- | --- |
-| `--output`, `-o <path>` | `BW_OUTPUT` | `output` | Write Markdown to this file instead of stdout. |
+| `--output`, `-o <path>` | `BW_OUTPUT` | `output` | Write the JSON response envelope to this file instead of stdout. |
 
 ### `scrape`
 
@@ -147,7 +151,7 @@ moon run ./src --target native -- links --url https://example.com --visible-only
 Generates a PDF. The output path is required.
 
 ```bash
-moon run ./src --target native -- pdf --url https://example.com --output page.pdf --format A4
+moon run ./src --target native -- pdf --url https://example.com --output page.pdf --format a4
 ```
 
 | Option | Environment variable | Config key | Description |
@@ -195,7 +199,7 @@ moon run ./src --target native -- json --url https://example.com --prompt "Extra
 | Option | Environment variable | Config key | Description |
 | --- | --- | --- | --- |
 | `--prompt <text>` | `BW_PROMPT` | `prompt` | Extraction prompt; required. |
-| `--schema <path>` | `BW_SCHEMA` | `schema` | Path to a JSON Schema file. |
+| `--schema <path>` | `BW_SCHEMA` | `schema` | Path to a JSON Schema file, sent as `response_format.schema`. |
 | `--format <json|markdown|text>` | `BW_FORMAT` | `format` | Output format; defaults to raw JSON. |
 
 ### `crawl`
@@ -231,7 +235,7 @@ moon run ./src --target native -- crawl status --id crawl-job-id
 
 #### `crawl results`
 
-Retrieves the results for a crawl job.
+Retrieves the results for a crawl job from `/crawl/{id}/results`.
 
 ```bash
 moon run ./src --target native -- crawl results --id crawl-job-id --output results.json
