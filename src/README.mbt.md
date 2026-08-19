@@ -11,10 +11,11 @@ Set the Cloudflare credentials in the environment, then run the installed CLI:
 ```bash
 export CLOUDFLARE_ACCOUNT_ID=your-account-id
 export CLOUDFLARE_API_TOKEN=your-api-token
+bw --help
 bw markdown --url https://example.com
 ```
 
-Without `--output`, `bw markdown` prints the Cloudflare JSON response envelope to stdout.
+`bw --help` prints the generated command list. Without `--output`, `bw markdown` prints the Cloudflare JSON response envelope to stdout.
 
 Use a local HTML file instead of a URL with `--html`:
 
@@ -60,12 +61,6 @@ For a JSON configuration file, provide crawl formats as an array:
 
 ```bash
 nix profile install github:totto2727-org/bw
-```
-
-2. Verify the installed executable and inspect its generated help.
-
-```bash
-bw --help
 ```
 
 ## API

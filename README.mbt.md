@@ -44,12 +44,6 @@ Use `--config <path>` to select a JSON configuration file. Without an explicit p
 nix profile install github:totto2727-org/bw
 ```
 
-2. Verify the installed executable and inspect its generated help.
-
-```bash
-bw --help
-```
-
 ## API
 
 `bw` is an executable, so its public API is the CLI command and option surface. The module-level command groups are:
