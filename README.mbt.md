@@ -13,7 +13,12 @@ export CLOUDFLARE_ACCOUNT_ID=your-account-id
 export CLOUDFLARE_API_TOKEN=your-api-token
 bw --help
 bw markdown --url https://example.com
+bw markdown --url https://example.com --output markdown-response.json
+bw crawl start --url https://example.com --format markdown
+bw crawl status --id crawl-job-id
 ```
+
+`bw --help` prints the generated command list. Without `--output`, `bw markdown` prints the Cloudflare JSON response envelope to stdout; with `--output`, it writes that envelope to the named file and prints a confirmation. `bw crawl start` prints a response whose `result` is the crawl job ID; pass that ID to `bw crawl status` to print the current status response.
 
 Use `--config <path>` to select a JSON configuration file. Without an explicit path, `bw` loads `bw-config.json` from the current directory when it exists. Values are resolved in this order: command-line option, environment variable, config-file key, and option default.
 

@@ -14,14 +14,19 @@ export CLOUDFLARE_API_TOKEN=your-api-token
 bw markdown --url https://example.com
 ```
 
+Without `--output`, `bw markdown` prints the Cloudflare JSON response envelope to stdout.
+
 Use a local HTML file instead of a URL with `--html`:
 
 ```bash
-bw markdown --html page.html --output page.md
+bw markdown --html page.html --output markdown-response.json
 bw screenshot --url https://example.com --output page.png
 bw json --url https://example.com --prompt "Extract the title" --format text
 bw crawl start --url https://example.com --format html --format markdown
+bw crawl status --id crawl-job-id
 ```
+
+The Markdown command writes the JSON response envelope to `markdown-response.json` and prints a confirmation; the screenshot command writes the returned screenshot bytes to `page.png` and prints its path. The JSON command prints the extracted `result` as text. The crawl start response contains the crawl job ID in `result`; pass that ID to `crawl status` to print the JSON response with the current job status.
 
 `--config <path>` is a global option and can appear before or after a command at any nesting depth. Without an explicit path, `bw` loads `bw-config.json` from the current directory when it exists; a missing default file is ignored, while a missing explicitly selected file is an error.
 
