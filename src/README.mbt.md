@@ -2,25 +2,25 @@
 
 `bw` is a native MoonBit CLI for Cloudflare Browser Rendering, with commands for rendered content, Markdown, screenshots, PDFs, structured extraction, links, and asynchronous crawls.
 
-This package-local document is canonical `src/README.mbt.md`. The repository-root module overview is in [../README.mbt.md](../README.mbt.md).
+For a shorter introduction, see the [repository overview](../README.mbt.md).
 
 ## Usage
 
-Set the Cloudflare credentials in the environment, then run a command from the repository:
+Set the Cloudflare credentials in the environment, then run the installed CLI:
 
 ```bash
 export CLOUDFLARE_ACCOUNT_ID=your-account-id
 export CLOUDFLARE_API_TOKEN=your-api-token
-moon run ./src --target native -- markdown --url https://example.com
+bw markdown --url https://example.com
 ```
 
 Use a local HTML file instead of a URL with `--html`:
 
 ```bash
-moon run ./src --target native -- markdown --html page.html --output page.md
-moon run ./src --target native -- screenshot --url https://example.com --output page.png
-moon run ./src --target native -- json --url https://example.com --prompt "Extract the title" --format text
-moon run ./src --target native -- crawl start --url https://example.com --format html --format markdown
+bw markdown --html page.html --output page.md
+bw screenshot --url https://example.com --output page.png
+bw json --url https://example.com --prompt "Extract the title" --format text
+bw crawl start --url https://example.com --format html --format markdown
 ```
 
 `--config <path>` is a global option and can appear before or after a command at any nesting depth. Without an explicit path, `bw` loads `bw-config.json` from the current directory when it exists; a missing default file is ignored, while a missing explicitly selected file is an error.
@@ -46,28 +46,21 @@ For a JSON configuration file, provide crawl formats as an array:
 ## Prerequisites
 
 - **Cloudflare**: A Cloudflare account with Browser Rendering enabled, an account ID, and an API token with permission to call the Browser Rendering API.
-- **MoonBit**: The MoonBit toolchain with native target support, or Nix with flakes enabled to enter the repository's development shell.
+- **Nix**: Install Nix with flakes enabled to install `bw` from its flake.
 - **Network**: Outbound access to `api.cloudflare.com` when a command calls the service.
 
 ## Setup
 
-1. Clone the repository and enter it.
+1. Install `bw` into your Nix profile.
 
 ```bash
-git clone https://github.com/totto2727-org/bw.git
-cd bw
+nix profile install github:totto2727-org/bw
 ```
 
-2. Enter the pinned development shell.
+2. Verify the installed executable and inspect its generated help.
 
 ```bash
-nix develop
-```
-
-3. Verify the executable and inspect its generated help.
-
-```bash
-moon run ./src --target native -- --help
+bw --help
 ```
 
 ## API
@@ -99,7 +92,7 @@ The `content`, `markdown`, `scrape`, `links`, `pdf`, `screenshot`, `snapshot`, `
 Fetches rendered HTML. The JSON response envelope is printed to stdout unless `--output` is set.
 
 ```bash
-moon run ./src --target native -- content --url https://example.com --output page.html
+bw content --url https://example.com --output page.html
 ```
 
 | Option | Environment variable | Config key | Description |
@@ -111,7 +104,7 @@ moon run ./src --target native -- content --url https://example.com --output pag
 Extracts Markdown from a rendered page. The JSON response envelope is printed to stdout unless `--output` is set.
 
 ```bash
-moon run ./src --target native -- markdown --url https://example.com --output page.md
+bw markdown --url https://example.com --output page.md
 ```
 
 | Option | Environment variable | Config key | Description |
@@ -123,7 +116,7 @@ moon run ./src --target native -- markdown --url https://example.com --output pa
 Extracts elements matching a required CSS selector.
 
 ```bash
-moon run ./src --target native -- scrape --url https://example.com --selector 'article h1'
+bw scrape --url https://example.com --selector 'article h1'
 ```
 
 | Option | Environment variable | Config key | Description |
@@ -135,7 +128,7 @@ moon run ./src --target native -- scrape --url https://example.com --selector 'a
 Retrieves links from a rendered page.
 
 ```bash
-moon run ./src --target native -- links --url https://example.com --visible-only --internal-only
+bw links --url https://example.com --visible-only --internal-only
 ```
 
 | Option | Environment variable | Config key | Description |
@@ -148,7 +141,7 @@ moon run ./src --target native -- links --url https://example.com --visible-only
 Generates a PDF. The output path is required.
 
 ```bash
-moon run ./src --target native -- pdf --url https://example.com --output page.pdf --format a4
+bw pdf --url https://example.com --output page.pdf --format a4
 ```
 
 | Option | Environment variable | Config key | Description |
@@ -162,7 +155,7 @@ moon run ./src --target native -- pdf --url https://example.com --output page.pd
 Captures a screenshot. The output path is required.
 
 ```bash
-moon run ./src --target native -- screenshot --url https://example.com --output page.png --full-page
+bw screenshot --url https://example.com --output page.png --full-page
 ```
 
 | Option | Environment variable | Config key | Description |
@@ -177,7 +170,7 @@ moon run ./src --target native -- screenshot --url https://example.com --output 
 Captures HTML and a screenshot in an output directory. The output directory is required.
 
 ```bash
-moon run ./src --target native -- snapshot --url https://example.com --output snapshot
+bw snapshot --url https://example.com --output snapshot
 ```
 
 | Option | Environment variable | Config key | Description |
@@ -190,7 +183,7 @@ moon run ./src --target native -- snapshot --url https://example.com --output sn
 Extracts structured data using a required prompt. It prints the raw Cloudflare JSON response by default; `markdown` and `text` formats print the extracted `result`.
 
 ```bash
-moon run ./src --target native -- json --url https://example.com --prompt "Extract the title" --format markdown
+bw json --url https://example.com --prompt "Extract the title" --format markdown
 ```
 
 | Option | Environment variable | Config key | Description |
@@ -208,7 +201,7 @@ Manages asynchronous crawl jobs through three subcommands.
 Starts a crawl job and optionally writes the API response to `--output`.
 
 ```bash
-moon run ./src --target native -- crawl start --url https://example.com --limit 20 --depth 2 --format markdown
+bw crawl start --url https://example.com --limit 20 --depth 2 --format markdown
 ```
 
 | Option | Environment variable | Config key | Description |
@@ -223,7 +216,7 @@ moon run ./src --target native -- crawl start --url https://example.com --limit 
 Checks a crawl job's status.
 
 ```bash
-moon run ./src --target native -- crawl status --id crawl-job-id
+bw crawl status --id crawl-job-id
 ```
 
 | Option | Environment variable | Config key | Description |
@@ -235,7 +228,7 @@ moon run ./src --target native -- crawl status --id crawl-job-id
 Retrieves the results for a crawl job from `/crawl/{id}/results`.
 
 ```bash
-moon run ./src --target native -- crawl results --id crawl-job-id --output results.json
+bw crawl results --id crawl-job-id --output results.json
 ```
 
 | Option | Environment variable | Config key | Description |
