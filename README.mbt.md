@@ -1,44 +1,74 @@
 # bw
 
-Native MoonBit implementation of the `bw` Cloudflare Browser Rendering CLI.
+`bw` is a native MoonBit CLI module for Cloudflare Browser Rendering. It renders pages, extracts structured data, captures files, and manages asynchronous crawl jobs through a single executable.
+
+This repository document is canonical root `README.mbt.md`; maintain `README.md` as the relative symlink `README.md -> README.mbt.md`. The complete package-local command reference is in [src/README.mbt.md](src/README.mbt.md).
+
+## Usage
+
+Set the Cloudflare credentials in the environment, then inspect the available commands or run a command from the repository:
 
 ```bash
+export CLOUDFLARE_ACCOUNT_ID=your-account-id
+export CLOUDFLARE_API_TOKEN=your-api-token
+moon run ./src --target native -- --help
 moon run ./src --target native -- markdown --url https://example.com
-moon run ./src --target native -- json --url https://example.com --prompt "Extract the title"
-moon run ./src --target native -- json --url https://example.com --prompt "Extract the title" --format markdown > result.md
-moon run ./src --target native -- json --url https://example.com --prompt "Extract the title" --format text > result.txt
-moon run ./src --target native -- screenshot --url https://example.com --output page.png
-moon run ./src --target native -- markdown --config bw-config.json
-moon run ./src --target native -- --config bw-config.json crawl start --format html --format markdown
 ```
 
-`--config <path>` is a global option and may appear before or after a command at any nesting depth. When it is omitted, `bw` loads `bw-config.json` from the current directory if that file exists. A missing default file is ignored, while a missing explicitly selected file is an error.
+Use `--config <path>` to select a JSON configuration file. Without an explicit path, `bw` loads `bw-config.json` from the current directory when it exists. Values are resolved in this order: command-line option, environment variable, config-file key, and option default.
 
-Configuration is loaded through Admiral's typed JSON config map. Values are resolved with this precedence:
+## Key features
 
-1. CLI option
-2. Environment variable
-3. Config file key
-4. Option default
+- Native MoonBit executable for the Cloudflare Browser Rendering API.
+- Render HTML as Markdown, extract CSS-selected elements, retrieve links, and capture screenshots, snapshots, or PDFs.
+- Extract structured JSON with an optional JSON Schema and Markdown or text output formatting.
+- Manage asynchronous crawl jobs with `crawl start`, `crawl status`, and `crawl results`.
+- Resolve CLI, environment, and JSON configuration values through Admiral's typed configuration loader.
 
-Environment variables use `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN`, `BW_URL`, `BW_HTML`, `BW_WAIT_UNTIL`, `BW_OUTPUT`, `BW_FULL_PAGE`, `BW_WIDTH`, `BW_HEIGHT`, `BW_LANDSCAPE`, `BW_FORMAT`, `BW_SELECTOR`, `BW_PROMPT`, `BW_SCHEMA`, `BW_CRAWL_ID`, `BW_CRAWL_LIMIT`, `BW_CRAWL_DEPTH`, `BW_CRAWL_FORMATS`, `BW_VISIBLE_ONLY`, and `BW_INTERNAL_ONLY`.
+## Prerequisites
 
-Config keys are independent snake_case names: `account_id`, `api_token`, `url`, `html`, `wait_until`, `output`, `full_page`, `width`, `height`, `landscape`, `format`, `selector`, `prompt`, `schema`, `id`, `limit`, `depth`, `formats`, `visible_only`, and `internal_only`. The loader preserves every JSON property mechanically as `Map[String, Json]`; Admiral selects declared keys and decodes their typed values. `html` and `schema` are file paths, the same as their CLI options.
-For multiple crawl formats, use a JSON string array such as `"formats": ["html", "markdown"]` or repeat `--format` on the command line. The `BW_CRAWL_FORMATS` environment variable remains a single scalar value and may use a comma-separated string.
+- **Cloudflare**: A Cloudflare account with Browser Rendering enabled, an account ID, and an API token with permission to call the Browser Rendering API.
+- **MoonBit**: The MoonBit toolchain with native target support, or Nix with flakes enabled to enter the repository's development shell.
+- **Network**: Outbound access to `api.cloudflare.com` when a command calls the service.
 
-`json` prints the Cloudflare JSON response by default. Use `--format markdown` or `--format text` to print the extracted `result` as unstyled plain text for redirection.
+## Setup
 
-```json
-{
-  "account_id": "your-account-id",
-  "api_token": "your-api-token",
-  "url": "https://example.com",
-  "wait_until": "networkidle",
-  "output": "page.png",
-  "full_page": true,
-  "width": 1280,
-  "height": 720,
-  "format": "markdown",
-  "formats": ["html", "markdown"]
-}
+1. Clone the repository and enter it.
+
+```bash
+git clone https://github.com/totto2727-org/bw.git
+cd bw
 ```
+
+2. Enter the pinned development shell.
+
+```bash
+nix develop
+```
+
+3. Verify the executable and inspect its generated help.
+
+```bash
+moon run ./src --target native -- --help
+```
+
+## API
+
+`bw` is an executable, so its public API is the CLI command and option surface. The module-level command groups are:
+
+- **Page rendering**: `content`, `markdown`, `scrape`, `links`, `pdf`, `screenshot`, and `snapshot`.
+- **Structured extraction**: `json` with an optional prompt and JSON Schema.
+- **Asynchronous crawls**: `crawl start`, `crawl status`, and `crawl results`.
+- **Configuration**: global `--config`, Cloudflare credential options, environment variables, and JSON configuration keys.
+
+See the [detailed package CLI reference](src/README.mbt.md#api) for every command, option, environment variable, configuration key, and usage example.
+
+## Development
+
+For repository structure, development commands, architecture, and contribution rules, see [AGENTS.md](./AGENTS.md).
+
+## License
+
+MIT. See [LICENSE](./LICENSE).
+
+_This README was generated from the [share-artifact skill](https://raw.githubusercontent.com/totto2727-org/agent/refs/heads/main/plugins/totto2727-coding/skills/share-artifact/SKILL.md) and [README template](https://raw.githubusercontent.com/totto2727-org/agent/refs/heads/main/plugins/totto2727-coding/skills/share-artifact/readme/template.md)._
