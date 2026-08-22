@@ -2,23 +2,18 @@
 
 `bw` is a native MoonBit CLI module for Cloudflare Browser Rendering. It renders pages, extracts structured data, captures files, and manages asynchronous crawl jobs through a single executable.
 
-For every command, option, environment variable, and configuration key, see the [detailed CLI reference](src/README.mbt.md#api).
+See the complete package-local command reference in [src/README.mbt.md](src/README.mbt.md).
 
 ## Usage
 
-Set the Cloudflare credentials in the environment, then inspect the available commands or run the installed CLI:
+Set the Cloudflare credentials in the environment, then inspect the available commands or run a command from the repository:
 
 ```bash
 export CLOUDFLARE_ACCOUNT_ID=your-account-id
 export CLOUDFLARE_API_TOKEN=your-api-token
-bw --help
-bw markdown --url https://example.com
-bw markdown --url https://example.com --output markdown-response.json
-bw crawl start --url https://example.com --format markdown
-bw crawl status --id crawl-job-id
+moon run ./src --target native -- --help
+moon run ./src --target native -- markdown --url https://example.com
 ```
-
-`bw --help` prints the generated command list. Without `--output`, `bw markdown` prints the Cloudflare JSON response envelope to stdout; with `--output`, it writes that envelope to the named file and prints a confirmation. `bw crawl start` prints a response whose `result` is the crawl job ID; pass that ID to `bw crawl status` to print the current status response.
 
 Use `--config <path>` to select a JSON configuration file. Without an explicit path, `bw` loads `bw-config.json` from the current directory when it exists. Values are resolved in this order: command-line option, environment variable, config-file key, and option default.
 
@@ -33,15 +28,28 @@ Use `--config <path>` to select a JSON configuration file. Without an explicit p
 ## Prerequisites
 
 - **Cloudflare**: A Cloudflare account with Browser Rendering enabled, an account ID, and an API token with permission to call the Browser Rendering API.
-- **Nix**: Install Nix with flakes enabled to install `bw` from its flake.
+- **MoonBit**: The MoonBit toolchain with native target support, or Nix with flakes enabled to enter the repository's development shell.
 - **Network**: Outbound access to `api.cloudflare.com` when a command calls the service.
 
 ## Setup
 
-1. Install `bw` into your Nix profile.
+1. Clone the repository and enter it.
 
 ```bash
-nix profile install github:totto2727-org/bw
+git clone https://github.com/totto2727-org/bw.git
+cd bw
+```
+
+2. Enter the pinned development shell.
+
+```bash
+nix develop
+```
+
+3. Verify the executable and inspect its generated help.
+
+```bash
+moon run ./src --target native -- --help
 ```
 
 ## API
