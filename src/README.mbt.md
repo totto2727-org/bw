@@ -1,67 +1,6 @@
-# bw
+# bw package CLI reference
 
-`bw` is a native MoonBit CLI for Cloudflare Browser Rendering, with commands for rendered content, Markdown, screenshots, PDFs, structured extraction, links, and asynchronous crawls.
-
-For a shorter introduction, see the [repository overview](../README.mbt.md).
-
-## Usage
-
-Set the Cloudflare credentials in the environment, then run the installed CLI:
-
-```bash
-export CLOUDFLARE_ACCOUNT_ID=your-account-id
-export CLOUDFLARE_API_TOKEN=your-api-token
-bw --help
-bw markdown --url https://example.com
-```
-
-`bw --help` prints the generated command list. Without `--output`, `bw markdown` prints the Cloudflare JSON response envelope to stdout.
-
-Use a local HTML file instead of a URL with `--html`:
-
-```bash
-bw markdown --html page.html --output markdown-response.json
-bw screenshot --url https://example.com --output page.png
-bw json --url https://example.com --prompt "Extract the title" --format text
-bw crawl start --url https://example.com --format html --format markdown
-bw crawl status --id crawl-job-id
-```
-
-The Markdown command writes the JSON response envelope to `markdown-response.json` and prints a confirmation; the screenshot command writes the returned screenshot bytes to `page.png` and prints its path. The JSON command prints the extracted `result` as text. The crawl start response contains the crawl job ID in `result`; pass that ID to `crawl status` to print the JSON response with the current job status.
-
-`--config <path>` is a global option and can appear before or after a command at any nesting depth. Without an explicit path, `bw` loads `bw-config.json` from the current directory when it exists; a missing default file is ignored, while a missing explicitly selected file is an error.
-
-Values are resolved in this order: command-line option, environment variable, config-file key, and option default. Config keys use the independent snake_case names documented in the API section. For multiple crawl formats, use a JSON string array such as `"formats": ["html", "markdown"]` or repeat `--format`; `BW_CRAWL_FORMATS` is a scalar environment value and accepts comma-separated formats.
-
-For a JSON configuration file, provide crawl formats as an array:
-
-```json
-{
-  "formats": ["html", "markdown"]
-}
-```
-
-## Key features
-
-- Native MoonBit executable for the Cloudflare Browser Rendering API.
-- Render HTML as Markdown, extract CSS-selected elements, retrieve links, and capture screenshots, snapshots, or PDFs.
-- Extract structured JSON with an optional JSON Schema and Markdown or text output formatting.
-- Manage asynchronous crawl jobs with `crawl start`, `crawl status`, and `crawl results`.
-- Resolve CLI, environment, and JSON configuration values through Admiral's typed configuration loader.
-
-## Prerequisites
-
-- **Cloudflare**: A Cloudflare account with Browser Rendering enabled, an account ID, and an API token with permission to call the Browser Rendering API.
-- **Nix**: Install Nix with flakes enabled to install `bw` from its flake.
-- **Network**: Outbound access to `api.cloudflare.com` when a command calls the service.
-
-## Setup
-
-1. Install `bw` into your Nix profile.
-
-```bash
-nix profile install github:totto2727-org/bw
-```
+This package-local README is published with the executable package and owns the complete `bw` command and option reference. The root [README.mbt.md](../README.mbt.md) owns the shared overview, usage, features, prerequisites, and setup guidance.
 
 ## API
 
@@ -91,10 +30,6 @@ The `content`, `markdown`, `scrape`, `links`, `pdf`, `screenshot`, `snapshot`, `
 
 Fetches rendered HTML. The JSON response envelope is printed to stdout unless `--output` is set.
 
-```bash
-bw content --url https://example.com --output page.html
-```
-
 | Option | Environment variable | Config key | Description |
 | --- | --- | --- | --- |
 | `--output`, `-o <path>` | `BW_OUTPUT` | `output` | Write the JSON response envelope to this file instead of stdout. |
@@ -102,10 +37,6 @@ bw content --url https://example.com --output page.html
 ### `markdown`
 
 Extracts Markdown from a rendered page. The JSON response envelope is printed to stdout unless `--output` is set.
-
-```bash
-bw markdown --url https://example.com --output page.md
-```
 
 | Option | Environment variable | Config key | Description |
 | --- | --- | --- | --- |
@@ -115,10 +46,6 @@ bw markdown --url https://example.com --output page.md
 
 Extracts elements matching a required CSS selector.
 
-```bash
-bw scrape --url https://example.com --selector 'article h1'
-```
-
 | Option | Environment variable | Config key | Description |
 | --- | --- | --- | --- |
 | `--selector <css>` | `BW_SELECTOR` | `selector` | CSS selector for the elements to extract; required. |
@@ -126,10 +53,6 @@ bw scrape --url https://example.com --selector 'article h1'
 ### `links`
 
 Retrieves links from a rendered page.
-
-```bash
-bw links --url https://example.com --visible-only --internal-only
-```
 
 | Option | Environment variable | Config key | Description |
 | --- | --- | --- | --- |
@@ -140,10 +63,6 @@ bw links --url https://example.com --visible-only --internal-only
 
 Generates a PDF. The output path is required.
 
-```bash
-bw pdf --url https://example.com --output page.pdf --format a4
-```
-
 | Option | Environment variable | Config key | Description |
 | --- | --- | --- | --- |
 | `--output`, `-o <path>` | `BW_OUTPUT` | `output` | PDF output path; required. |
@@ -153,10 +72,6 @@ bw pdf --url https://example.com --output page.pdf --format a4
 ### `screenshot`
 
 Captures a screenshot. The output path is required.
-
-```bash
-bw screenshot --url https://example.com --output page.png --full-page
-```
 
 | Option | Environment variable | Config key | Description |
 | --- | --- | --- | --- |
@@ -169,10 +84,6 @@ bw screenshot --url https://example.com --output page.png --full-page
 
 Captures HTML and a screenshot in an output directory. The output directory is required.
 
-```bash
-bw snapshot --url https://example.com --output snapshot
-```
-
 | Option | Environment variable | Config key | Description |
 | --- | --- | --- | --- |
 | `--output`, `-o <directory>` | `BW_OUTPUT` | `output` | Output directory; required. |
@@ -181,10 +92,6 @@ bw snapshot --url https://example.com --output snapshot
 ### `json`
 
 Extracts structured data using a required prompt. It prints the raw Cloudflare JSON response by default; `markdown` and `text` formats print the extracted `result`.
-
-```bash
-bw json --url https://example.com --prompt "Extract the title" --format markdown
-```
 
 | Option | Environment variable | Config key | Description |
 | --- | --- | --- | --- |
@@ -200,10 +107,6 @@ Manages asynchronous crawl jobs through three subcommands.
 
 Starts a crawl job and optionally writes the API response to `--output`.
 
-```bash
-bw crawl start --url https://example.com --limit 20 --depth 2 --format markdown
-```
-
 | Option | Environment variable | Config key | Description |
 | --- | --- | --- | --- |
 | `--output`, `-o <path>` | `BW_OUTPUT` | `output` | Write the start response to this file. |
@@ -215,10 +118,6 @@ bw crawl start --url https://example.com --limit 20 --depth 2 --format markdown
 
 Checks a crawl job's status.
 
-```bash
-bw crawl status --id crawl-job-id
-```
-
 | Option | Environment variable | Config key | Description |
 | --- | --- | --- | --- |
 | `--id <id>` | `BW_CRAWL_ID` | `id` | Crawl job ID; required. |
@@ -227,21 +126,9 @@ bw crawl status --id crawl-job-id
 
 Retrieves the results for a crawl job from `/crawl/{id}/results`.
 
-```bash
-bw crawl results --id crawl-job-id --output results.json
-```
-
 | Option | Environment variable | Config key | Description |
 | --- | --- | --- | --- |
 | `--id <id>` | `BW_CRAWL_ID` | `id` | Crawl job ID; required. |
 | `--output`, `-o <path>` | `BW_OUTPUT` | `output` | Write the results to this file instead of stdout. |
-
-## Development
-
-For repository structure, development commands, architecture, and contribution rules, see [AGENTS.md](../AGENTS.md).
-
-## License
-
-MIT. See [LICENSE](../LICENSE).
 
 _This README was generated from the [share-artifact skill](https://raw.githubusercontent.com/totto2727-org/agent/refs/heads/main/plugins/totto2727-coding/skills/share-artifact/SKILL.md) and [README template](https://raw.githubusercontent.com/totto2727-org/agent/refs/heads/main/plugins/totto2727-coding/skills/share-artifact/readme/template.md)._

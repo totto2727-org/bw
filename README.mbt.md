@@ -46,14 +46,7 @@ nix profile install github:totto2727-org/bw
 
 ## API
 
-`bw` is an executable, so its public API is the CLI command and option surface. The module-level command groups are:
-
-- **Page rendering**: `content`, `markdown`, `scrape`, `links`, `pdf`, `screenshot`, and `snapshot`.
-- **Structured extraction**: `json` with an optional prompt and JSON Schema.
-- **Asynchronous crawls**: `crawl start`, `crawl status`, and `crawl results`.
-- **Configuration**: global `--config`, Cloudflare credential options, environment variables, and JSON configuration keys.
-
-See the [detailed package CLI reference](src/README.mbt.md#api) for every command, option, environment variable, configuration key, and usage example.
+`bw` is an executable, so its public API is the CLI command and option surface. See the [detailed package CLI reference](src/README.mbt.md#api) for every command, option, environment variable, configuration key, and output field.
 
 ## Development
 
