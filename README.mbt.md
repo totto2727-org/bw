@@ -6,16 +6,20 @@ See the complete package-local command reference in [src/README.mbt.md](src/READ
 
 ## Usage
 
-Set the Cloudflare credentials in the environment, then inspect the available commands or run a command from the repository:
+Set the Cloudflare credentials in the environment, then run the installed executable:
 
 ```bash
 export CLOUDFLARE_ACCOUNT_ID=your-account-id
 export CLOUDFLARE_API_TOKEN=your-api-token
-moon run ./src --target native -- --help
-moon run ./src --target native -- markdown --url https://example.com
 ```
 
-Use `--config <path>` to select a JSON configuration file. Without an explicit path, `bw` loads `bw-config.json` from the current directory when it exists. Values are resolved in this order: command-line option, environment variable, config-file key, and option default.
+```console
+$ bw --help
+Usage: bw [options] [command]
+$ bw markdown --url https://example.com --output page.md
+```
+
+`bw --help` prints the available commands. A command such as `bw markdown --url https://example.com --output page.md` requests rendered Markdown and writes the response to `page.md`.
 
 ## Key features
 
@@ -28,28 +32,15 @@ Use `--config <path>` to select a JSON configuration file. Without an explicit p
 ## Prerequisites
 
 - **Cloudflare**: A Cloudflare account with Browser Rendering enabled, an account ID, and an API token with permission to call the Browser Rendering API.
-- **MoonBit**: The MoonBit toolchain with native target support, or Nix with flakes enabled to enter the repository's development shell.
+- **Nix**: Required for the documented profile installation command.
 - **Network**: Outbound access to `api.cloudflare.com` when a command calls the service.
 
 ## Setup
 
-1. Clone the repository and enter it.
+Install the native package with Nix:
 
 ```bash
-git clone https://github.com/totto2727-org/bw.git
-cd bw
-```
-
-2. Enter the pinned development shell.
-
-```bash
-nix develop
-```
-
-3. Verify the executable and inspect its generated help.
-
-```bash
-moon run ./src --target native -- --help
+nix profile add github:totto2727-org/bw#bw
 ```
 
 ## API
