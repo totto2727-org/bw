@@ -13,7 +13,7 @@ async fn post_json(
   path : String,
   body : Json,
 ) -> (Int, String, &@io.Data) {
-  let headers = {
+  let headers : @http.Headers = {
     "Authorization": "Bearer \{api_token}",
     "Content-Type": "application/json",
   }
@@ -27,7 +27,7 @@ async fn get_json(
   api_token : String,
   path : String,
 ) -> (Int, String, &@io.Data) {
-  let headers = { "Authorization": "Bearer \{api_token}" }
+  let headers : @http.Headers = { "Authorization": "Bearer \{api_token}" }
   let (response, data) = @http.get(endpoint(account_id, path), headers~)
   (response.code, response.reason, data)
 }
