@@ -32,14 +32,20 @@ $ bw markdown --url https://example.com --output page.md
 ## Prerequisites
 
 - **Cloudflare**: A Cloudflare account with Browser Rendering enabled, an account ID, and an API token with permission to call the Browser Rendering API.
-- **MoonBit or Nix**: Install MoonBit for the `moon install` path, or Nix with flakes enabled for the Nix paths.
+- **MoonBit or Nix**: Install MoonBit for the `moonx --target native` and `moon install` paths, or Nix with flakes enabled for the Nix paths.
 - **Network**: Outbound access to `api.cloudflare.com` when a command calls the service.
 
 ## Setup
 
 Choose the access path that fits how you use the command.
 
-### Run once with Nix
+### Run once with MoonBit or Nix
+
+Run the published native package without installing it globally:
+
+```bash
+moonx --target native totto2727/bw --help
+```
 
 Run the packaged command without installing it globally:
 
@@ -60,8 +66,6 @@ Or install the Nix package into your profile:
 ```bash
 nix profile add github:totto2727-org/bw#bw
 ```
-
-`bw` is native-only, so `moonx` cannot run it: `moonx` requires a published WebAssembly asset.
 
 ### Add to a consumer flake
 
