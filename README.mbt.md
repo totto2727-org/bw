@@ -2,7 +2,7 @@
 
 `bw` is a native MoonBit CLI module for Cloudflare Browser Rendering. It renders pages, extracts structured data, captures files, and manages asynchronous crawl jobs through a single executable.
 
-See the complete package-local command reference in [src/README.mbt.md](src/README.mbt.md).
+See the complete [CLI reference](docs/cli-reference.md).
 
 ## Usage
 
@@ -45,7 +45,7 @@ nix profile add github:totto2727-org/bw#bw
 
 ## API
 
-`bw` is an executable, so its public API is the CLI command and option surface. See the [detailed package CLI reference](src/README.mbt.md#api) for every command, option, environment variable, configuration key, and output field.
+`bw` is an executable, so its public API is the CLI command and option surface. See the [CLI reference](docs/cli-reference.md#api) for every command, option, environment variable, configuration key, and output field.
 
 ## Development
 

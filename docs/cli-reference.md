@@ -1,6 +1,6 @@
-# bw package CLI reference
+# bw CLI reference
 
-This package-local README is published with the executable package and owns the complete `bw` command and option reference. The root [README.mbt.md](../README.mbt.md) owns the shared overview, usage, features, prerequisites, and setup guidance.
+This guide documents the complete `bw` command and option reference. The root [README.mbt.md](../README.mbt.md) owns the user-facing overview, installed usage, prerequisites, and setup guidance.
 
 ## API
 
@@ -130,5 +130,3 @@ Retrieves the results for a crawl job from `/crawl/{id}/results`.
 | --- | --- | --- | --- |
 | `--id <id>` | `BW_CRAWL_ID` | `id` | Crawl job ID; required. |
 | `--output`, `-o <path>` | `BW_OUTPUT` | `output` | Write the results to this file instead of stdout. |
-
-_This README was generated from the [share-artifact skill](https://raw.githubusercontent.com/totto2727-org/agent/refs/heads/main/plugins/totto2727-coding/skills/share-artifact/SKILL.md) and [README template](https://raw.githubusercontent.com/totto2727-org/agent/refs/heads/main/plugins/totto2727-coding/skills/share-artifact/readme/template.md)._
