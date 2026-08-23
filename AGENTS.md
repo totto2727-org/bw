@@ -14,7 +14,7 @@ package.nix                     Nix package builder
 .github/workflows/              MoonBit checks and package publication workflows
 README.mbt.md                   Canonical root module and CLI overview
 README.md                       Relative symlink to README.mbt.md
-src/README.mbt.md               Canonical package-local detailed CLI documentation
+docs/cli-reference.md           Detailed CLI command and option reference
 ```
 
 ## Development commands
@@ -25,7 +25,7 @@ src/README.mbt.md               Canonical package-local detailed CLI documentati
 - Enter `nix develop` before running MoonBit or Nix package tasks when the pinned toolchain is required.
 - Keep Cloudflare credentials in environment variables or local config files; never commit secrets.
 - Keep the root module overview canonical in `README.mbt.md` with the relative `README.md -> README.mbt.md` symlink.
-- Keep the detailed package documentation canonical in `src/README.mbt.md`.
+- Keep the detailed CLI reference in `docs/cli-reference.md`; do not duplicate it in a package README.
 - Do not create a separate `CLAUDE.md` file or alias for this repository.
 
 ### Standard tasks
@@ -77,8 +77,8 @@ src/README.mbt.md               Canonical package-local detailed CLI documentati
 - Keep the README command and option reference complete when adding or changing a command; this executable has no separate public library API.
 - Preserve the native target declaration and the Cloudflare API endpoint contract unless a deliberate compatibility change is documented in the README and tests.
 - Add or update `*_wbtest.mbt` coverage for deterministic configuration, serialization, parsing, or output changes; do not make tests depend on live Cloudflare credentials.
-- Keep the module overview and short CLI summary in the root `README.mbt.md`; keep the complete command and option reference in `src/README.mbt.md`.
+- Keep the module overview, installed usage, and CLI guide link in the root `README.mbt.md`; keep the complete command and option reference in `docs/cli-reference.md`.
 - Keep build, test, CI, architecture, and contributor guidance here.
-- Keep the share-artifact provenance footer in both canonical documents and do not add an independently authored README or CLAUDE document.
+- Keep the share-artifact provenance footer in the canonical root README and do not add an independently authored README or CLAUDE document.
 
 _This AGENTS.md was generated from the [share-artifact skill](https://raw.githubusercontent.com/totto2727-org/agent/refs/heads/main/plugins/totto2727-coding/skills/share-artifact/SKILL.md) and [AGENTS template](https://raw.githubusercontent.com/totto2727-org/agent/refs/heads/main/plugins/totto2727-coding/skills/share-artifact/agents/template.md)._
