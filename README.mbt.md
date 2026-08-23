@@ -32,15 +32,62 @@ $ bw markdown --url https://example.com --output page.md
 ## Prerequisites
 
 - **Cloudflare**: A Cloudflare account with Browser Rendering enabled, an account ID, and an API token with permission to call the Browser Rendering API.
-- **Nix**: Required for the documented profile installation command.
+- **MoonBit or Nix**: Install MoonBit for the `moon install` path, or Nix with flakes enabled for the Nix paths.
 - **Network**: Outbound access to `api.cloudflare.com` when a command calls the service.
 
 ## Setup
 
-Install the native package with Nix:
+Choose the access path that fits how you use the command.
+
+### Run once with Nix
+
+Run the packaged command without installing it globally:
+
+```bash
+nix run github:totto2727-org/bw#bw -- --help
+```
+
+### Install globally
+
+Install with MoonBit (the default destination is `~/.moon/bin`, which must be on your `PATH`):
+
+```bash
+moon install totto2727/bw
+```
+
+Or install the Nix package into your profile:
 
 ```bash
 nix profile add github:totto2727-org/bw#bw
+```
+
+`bw` is native-only, so `moonx` cannot run it: `moonx` requires a published WebAssembly asset.
+
+### Add to a consumer flake
+
+Make `bw` available in a Nix development shell through the exported overlay:
+
+```nix
+{
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    bw.url = "github:totto2727-org/bw";
+  };
+
+  outputs = { nixpkgs, bw, ... }:
+    let
+      system = "aarch64-darwin"; # Use x86_64-linux on Linux.
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [ bw.overlays.default ];
+      };
+    in
+    {
+      devShells.${system}.default = pkgs.mkShell {
+        packages = [ pkgs.bw ];
+      };
+    };
+}
 ```
 
 ## API
