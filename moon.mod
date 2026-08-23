@@ -1,16 +1,16 @@
 name = "totto2727/bw"
 
-version = "0.2.2"
+version = "0.2.3"
 
 preferred_target = "native"
 
 supported_targets = "native"
 
 import {
-  "totto2727/admiral@0.6.2",
-  "totto2727/lens@0.4.1",
-  "moonbitlang/x@0.4.47",
-  "moonbitlang/async@0.20.3",
+  "totto2727/admiral@0.6.5",
+  "totto2727/lens@0.4.3",
+  "moonbitlang/x@0.5.1",
+  "moonbitlang/async@0.21.0",
   "gmlewis/base64@0.16.11",
 }
 
