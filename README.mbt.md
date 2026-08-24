@@ -6,7 +6,7 @@ See the complete [CLI reference](docs/cli-reference.md).
 
 ## Usage
 
-Set the Cloudflare credentials in the environment, then run the installed executable:
+Set the Cloudflare credentials in the environment:
 
 ```bash
 export CLOUDFLARE_ACCOUNT_ID=your-account-id
@@ -14,12 +14,10 @@ export CLOUDFLARE_API_TOKEN=your-api-token
 ```
 
 ```console
-$ bw --help
-Usage: bw [options] [command]
 $ bw markdown --url https://example.com --output page.md
 ```
 
-`bw --help` prints the available commands. A command such as `bw markdown --url https://example.com --output page.md` requests rendered Markdown and writes the response to `page.md`.
+Expected result: `page.md` contains the Browser Rendering response envelope for the requested page.
 
 ## Key features
 
@@ -32,15 +30,49 @@ $ bw markdown --url https://example.com --output page.md
 ## Prerequisites
 
 - **Cloudflare**: A Cloudflare account with Browser Rendering enabled, an account ID, and an API token with permission to call the Browser Rendering API.
-- **Nix**: Required for the documented profile installation command.
+- **MoonBit**: Install MoonBit for the `moonx --target native` and `moon install` paths.
+- **Supported platforms**: Apple Silicon macOS (`aarch64-darwin`) and x86_64 Linux (`x86_64-linux`).
 - **Network**: Outbound access to `api.cloudflare.com` when a command calls the service.
 
 ## Setup
 
-Install the native package with Nix:
+### Run without installing
 
 ```bash
+moonx --target native totto2727/bw --help
+nix run github:totto2727-org/bw#bw -- --help
+```
+
+### Install
+
+```bash
+moon install totto2727/bw
 nix profile add github:totto2727-org/bw#bw
+```
+
+### Nix flake
+
+```nix
+{
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    bw.url = "github:totto2727-org/bw";
+  };
+
+  outputs = { nixpkgs, bw, ... }:
+    let
+      system = "aarch64-darwin"; # Use x86_64-linux on Linux.
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [ bw.overlays.default ];
+      };
+    in
+    {
+      devShells.${system}.default = pkgs.mkShell {
+        packages = [ pkgs.bw ];
+      };
+    };
+}
 ```
 
 ## API
