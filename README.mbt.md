@@ -33,22 +33,18 @@ $ bw markdown --url https://example.com --output page.md
 
 - **Cloudflare**: A Cloudflare account with Browser Rendering enabled, an account ID, and an API token with permission to call the Browser Rendering API.
 - **MoonBit**: Install MoonBit for the `moonx --target native` and `moon install` paths.
-- **Nix**: Enable flakes on `aarch64-darwin` or `x86_64-linux`; the exported Nix package and overlay support exactly these two systems.
+- **Supported platforms**: Apple Silicon macOS (`aarch64-darwin`) and x86_64 Linux (`x86_64-linux`).
 - **Network**: Outbound access to `api.cloudflare.com` when a command calls the service.
 
 ## Setup
 
-Choose the access path that fits how you use the command.
-
-### Run once with MoonBit or Nix
-
-Run the published native package without installing it globally:
+### MoonBit
 
 ```bash
 moonx --target native totto2727/bw --help
 ```
 
-Run the packaged command without installing it globally on the supported Nix systems (`aarch64-darwin` or `x86_64-linux`):
+### Nix
 
 ```bash
 nix run github:totto2727-org/bw#bw -- --help
@@ -62,7 +58,7 @@ Install with MoonBit (the default destination is `~/.moon/bin`, which must be on
 moon install totto2727/bw
 ```
 
-Or install the Nix package into your profile:
+Install the Nix package into your profile:
 
 ```bash
 nix profile add github:totto2727-org/bw#bw
@@ -70,7 +66,7 @@ nix profile add github:totto2727-org/bw#bw
 
 ### Add to a consumer flake
 
-Make `bw` available in a Nix development shell through the exported overlay. The package and overlay support exactly `aarch64-darwin` and `x86_64-linux`:
+Use the exported overlay in a consumer flake:
 
 ```nix
 {
