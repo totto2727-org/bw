@@ -6,7 +6,7 @@ See the complete [CLI reference](docs/cli-reference.md).
 
 ## Usage
 
-Set the Cloudflare credentials in the environment, then run the installed executable:
+Set the Cloudflare credentials in the environment:
 
 ```bash
 export CLOUDFLARE_ACCOUNT_ID=your-account-id
@@ -14,12 +14,10 @@ export CLOUDFLARE_API_TOKEN=your-api-token
 ```
 
 ```console
-$ bw --help
-Usage: bw [options] [command]
 $ bw markdown --url https://example.com --output page.md
 ```
 
-`bw --help` prints the available commands. A command such as `bw markdown --url https://example.com --output page.md` requests rendered Markdown and writes the response to `page.md`.
+Expected result: `page.md` contains the Browser Rendering response envelope for the requested page.
 
 ## Key features
 
@@ -38,35 +36,21 @@ $ bw markdown --url https://example.com --output page.md
 
 ## Setup
 
-### MoonBit
+### Run without installing
 
 ```bash
 moonx --target native totto2727/bw --help
-```
-
-### Nix
-
-```bash
 nix run github:totto2727-org/bw#bw -- --help
 ```
 
-### Install globally
-
-Install with MoonBit (the default destination is `~/.moon/bin`, which must be on your `PATH`):
+### Install
 
 ```bash
 moon install totto2727/bw
-```
-
-Install the Nix package into your profile:
-
-```bash
 nix profile add github:totto2727-org/bw#bw
 ```
 
-### Add to a consumer flake
-
-Use the exported overlay in a consumer flake:
+### Nix flake
 
 ```nix
 {
